@@ -2,8 +2,7 @@
 require("babel/polyfill")
 
 let fetch = require('./fetcher')
-import e from 'mithril-slide-engine'
-let {resolver, container, m, engine} = e
+import {resolver, container, m, engine} from 'mithril-slide-engine'
 
 window.addEventListener('load', app)
 
