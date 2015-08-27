@@ -1,64 +1,158 @@
-### Universal JS Boilerplate
+### Toptal React JS crash course
 
+> hosted by Viacom HQ on Times Square in NYC
+
+Toptal React single-day crash course
 ---
 
-[![NPM](https://nodei.co/npm/universal-js-boilerplate.png)](https://nodei.co/npm/universal-js-boilerplate/)
+> Duration of instruction (not including exercise time): ~4.5 hours
 
-![](https://david-dm.org/matthiasak/universal-js-boilerplate.svg)
+Primary Topics (Broken down into ~90min sections, not always including exercises):
+---
 
-This is a scaffolding project that includes boilerplate code for:
+Section 0: Tools and Prerequisites (30min)
 
-- Node
-- Heroku
-- Babel, Babel runtime, ES6/2015, ES7/2016
-- Express, with a default server, some example code and routes, static file sharing, and proxy code
-- SCSS-like syntax driven by PostCSS
-- Some example SCSS, grids, normalize and typeplate css kits (installed from bower)
-- An example index.html for serving files
-- An example .gitignore for the project
-- A host of npm scripts for watching and building your files
+    1. Get all of our tools and build steps in-place.
+        - https://github.com/matthiasak/universal-js-boilerplate
+        - https://github.com/davezuko/react-redux-starter-kit
+    2. General review of concepts
+        - npm / package.json
+        - browserify (vs. webpack, etc)
+        - npm scripts (vs. grunt/gulp/broccoli/etc)
+        - transpilation with Babel
+        - Babel polyfills, es5 shim, Babel/ES6 on node (babel-register)
+        - React DevTools (https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+    3. Solar System of JS -> shaunlebron.github.io/solar-system-of-js/
+    4. Show Babel examples of ES6/7 and JSX being transpiled into JS
+    5. ES6 classes (the anti-pattern)
+    6. ES7 decorators (the un-anti-pattern)
 
-#### How to get started
+Section 1: React Components
 
-1. Start your own project folder 
+    - boilerplate React class (es6 destructuring, etc)
+    - Not "Reactive", it's "Declarative"
+    - virtual DOM representation
+    - state (is async, and triggers re-renders)
 
-    ```sh
-    cd ~/Github\ Projects/
-    mkdir example01
-    cd example01
+    React.Component Methods:
+
+    1. `setState`
+    2. `forceUpdate`
+
+    > exercise: counter, and lazy image-loader
+
+    - props (are sync, and don't), spread operator
+    - refs (find the actual DOM nodes)
+    - children (embed other elements inside this one dynamically (for when you have a component that is specifying the outer element, not the inner)) --> powerful for HOCs
+
+    > exercise: github profile
+
+Section 2: Lifecycle of React Components
+
+    ```
+    initializing --> will mount --> did mount --> will unmount --> did unmount
+                  |
+                  |\
+                  | \
+                  |  will receive props --> did receive props
+                  |
+                   \
+                    \
+                     should update? --> will update --> did update
     ```
 
-2. Install this package through npm (**Warning**: this _will_ delete/overwrite files, so **ONLY** use this on brand new project folders)
+    ```js
+    class ConstructorName extends React.Component {
 
-    ```sh
-    npm install universal-js-boilerplate
+        constructor(props){
+            super(props)
+            this.state = {} // initial state
+        }
+
+        // these key-value pairs ensure that props
+        // are of the type defined:
+        propTypes: {
+            list: React.PropTypes.array, // i.e. this.props.list must be an array
+            isReady: React.PropTypes.bool,
+            finish: React.PropTypes.func,
+            size: React.PropTypes.number,
+            data: React.PropTypes.object,
+            description: React.PropTypes.string
+        }
+
+        componentWillMount() {} // called when a component is attached to the DOM
+        componentWillReceiveProps() {} // called when props are updated
+        componentWillUnmount() {} // called when a component is removed from the DOM
+
+        componentDidMount() {} // called after a component is attached to the DOM
+        componentDidReceiveProps() {} // called after props are updated
+        componentDidUnmount() {} // called after a component is removed from the DOM
+
+        shouldComponentUpdate(nextState, nextProps) {} // if returns true, re-renders, otherwise nothing happens
+        componentWillUpdate(object nextProps, object nextState) // called before the component is re-rendered
+        componentDidUpdate(object prevProps, object prevState) // called when the component did update
+
+        // custom methods added to this component...
+        // given an underscore in the name to denote 'custom'
+        _parseData() {}
+        _onSelect() {}
+
+        // called by React whenever the state changes
+        render() {}
+    }
+
+    ConstructorName.displayName = 'Dudley'
+    ConstructorName.initialProps = {}
     ```
 
-3. Watch the package scaffold out files in your project
-4. Link or install global tools like bower, babel, etc...
+    > exercise: make a component that logs out every lifecycle event
 
-    ```sh
-    # first time ever installing this package on your machine?
-    npm run setup
-    # if not then just run..
-    npm run linkup
-    ```
-    
-5. Start your server:
+    Questions for the room:
 
-    ```sh
-    npm run s
+    - How would you implement jQuery UI/Kendo/jQuery plugins on a React-managed element?
+    - How would you have a component listen on mouseMove or scroll, and stop when it is removed from the screen?
 
-    # Alternatively, if you need nodemon to auto-reload your server 
-    # (when doing server-side work)
-    # npm run server
-    ```
+    Notes:
 
-6. Ready to push your code live, and want to minify your code with uglifyjs?
+    - React virtual events are "recycled" quickly, so grab the values immediately
+    - React has some global methods (check the API/docs for discussion)
+    - DOM events, className, htmlFor, setInnerHTMLDangerously
 
-    ```sh
-    npm run build
-    ```
+Section 3: Troubleshooting, State, and React on the server
+
+    - keys, React DevTools
+
+    ![](http://calendar.perfplanet.com/wp-content/uploads/2013/12/vjeux/2.png)
+
+    > exercise: demonstrate how keys are sometimes needed to prevent re-rendering
+
+    - propTypes
+
+    > exercise: demonstrate how propTypes (used only in dev mode) are used to ensure inputs to your components
+
+    - simple state management with POJOs
+
+    > exercise: build a todolist
+
+    - routing (Backbone, React router, or page.js) # tons to choose from
+
+    > exercise: build a blog with multiple views/screens
+
+    - React.renderToString vs. Resolver.renderToString
+
+    > exercise: build a blog, but define data in the components with React-Resolver (https://github.com/ericclemmons/react-resolver)
+
+Section 4: Flexible Flux and Advanced Concepts
+
+    - A list of awesome components online: http://react.parts/web
+    - state management (Backbone, Flux)
+    - lots of flux implementations, but Redux and Alt are most popular
+    - CSP, channels, RxJS, and other ways to "push" data
+    - testing? http://blog.venmo.com/hf2t3h4x98p5e13z82pl8j66ngcmry/2015/6/4/testing-reactjs --> react.addons.testutils
+    - auto-output with disc npm tool?
+    - immutable JS, mori JS, immutable state and persistent data structures
+    - The Diffing Algorithm™ --> http://calendar.perfplanet.com/2013/diff/
+
 
 #### License
 
