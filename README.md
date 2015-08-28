@@ -33,6 +33,7 @@ Section 1: React Components
     - Not "Reactive", it's "Declarative"
     - virtual DOM representation
     - state (is async, and triggers re-renders)
+    - props (are sync, and don't), spread operator
 
     React.Component Methods:
 
@@ -41,7 +42,6 @@ Section 1: React Components
 
     > exercise: counter, and lazy image-loader
 
-    - props (are sync, and don't), spread operator
     - refs (find the actual DOM nodes)
     - children (embed other elements inside this one dynamically (for when you have a component that is specifying the outer element, not the inner)) --> powerful for HOCs
 
