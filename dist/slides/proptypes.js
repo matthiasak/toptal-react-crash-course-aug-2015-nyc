@@ -27,7 +27,7 @@ const createStylesheet = () => {
 }
 
 window.onload = loadScripts(
-    'https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/react/0.13.3/react.js',
 'https://medialize.github.io/sass.js/dist/sass.sync.js'
 ).then(_ => createStylesheet()).then(() => init()).catch(e => log(e))
 
@@ -68,6 +68,13 @@ let init = function(){
                 items: []
             }
         }
+
+        // static values es7 (stage 0 -> https://babeljs.io/docs/usage/experimental/)
+        // --> **NOT** available in Arbiter
+        // static displayName = 'Clock'
+        // static defaultProps = { message: "Let's get some lunch." }
+        // static propTypes = {...}
+
         _setTime() {
             this.setState({ time: new Date })
         }
@@ -114,6 +121,22 @@ let init = function(){
     // new "static" values
     Clock.displayName = 'Clock'
     Clock.defaultProps = { message: "Default props: Let's get some lunch." }
+    // ensure that props are of the type defined:
+    // **ONLY WORKS IN DEVELOPMENT MODE**
+    // (I changed the React URL to non-minified version above)
+    let p = React.PropTypes
+    log(Object.keys(p))
+    Clock.propTypes = {
+        message: p.array, // i.e. this.props.list must be an array
+        // isReady: p.bool,
+        // finish: p.func.isRequired,
+        // size: p.number,
+        // data: p.object,
+        // description: p.string,
+        // message: p.oneOfType([ p.string, p.number, p.instanceOf(Message) ]),
+        // requiredAny: p.any.isRequired
+    }
+    // more: https://facebook.github.io/react/docs/reusable-components.html#prop-validation
 
     // log(<Clock message={'Coffee time after this!'} />, new Date)
     React.render(

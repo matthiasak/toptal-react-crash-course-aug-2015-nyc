@@ -88,10 +88,10 @@ let init = function(){
     }
 
     // log(<Clock message={'Coffee time after this!'} />, new Date)
-    // React.render(
-    //     <Clock>
-    //         <p>Oh, did I sneak this in here?</p>
-    //     </Clock>,
-    // qs('body'))
+    React.render(
+        <Clock message="hello there!">
+            <p>Oh, did I sneak this in here?</p>
+        </Clock>,
+    qs('body'))
 }
 

@@ -2,6 +2,8 @@
 // es6 polyfills, powered by babel
 'use strict';
 
+var _slicedToArray = (function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i['return']) _i['return'](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError('Invalid attempt to destructure non-iterable instance'); } }; })();
+
 var _mithrilSlideEngine = require('mithril-slide-engine');
 
 require("babel/polyfill");
@@ -70,23 +72,35 @@ var components1 = [(0, _mithrilSlideEngine.m)('code', 'setState'), (0, _mithrilS
 
 var components2 = [(0, _mithrilSlideEngine.m)('code', 'React.findDOMNode(this.refs.name)'), (0, _mithrilSlideEngine.m)('code', 'this.props.children')];
 
-var notesAboutEvents = ['React virtual events are "recycled" quickly, so grab the values immediately', 'React has some global methods (check the API/docs for discussion)', 'DOM events, className, htmlFor, setInnerHTMLDangerously'];
-
 var questionsAboutLifecycles = ['How would you implement jQuery UI/Kendo/jQuery plugins on a React-managed element?', 'How would you have a component listen on mouseMove or scroll, and stop when it is removed from the screen?'];
 
+var notes1 = ['React event callbacks are currently (v0.3.X) **NOT** bound to the object, so we must do that manually', 'React virtual events are "recycled" quickly, so grab the values immediately', 'React has some global methods (check the API/docs for discussion)', 'JSX has tricky naming: DOM events, className, htmlFor, setInnerHTMLDangerously'];
+
+var links = [['https://egghead.io/lessons/react-react-in-7-minutes', 'React in 7 minutes'], ['https://vimeo.com/130921996', 'React components review, Component event handlers, lifecycle methods, state vs props, PropTypes'], ['https://facebook.github.io/react/docs/reusable-components.html#prop-validation'], ['http://ricostacruz.com/cheatsheets/react.html', 'Cheatsheet'], ['https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi', 'DevTools Plugin'], ['http://react.parts/web', 'awesome components resource'], ['https://github.com/ericclemmons/react-resolver', 'React Resolver'], ['http://material-ui.com/#/get-started', 'Material UI in React'], ['https://github.com/chenglou/react-motion', 'physics-driven animation for React components'], ['http://devdocs.io/react/', 'DevDocs.io documentation'], ['http://facebook.github.io/react/docs/getting-started.html'], ['http://calendar.perfplanet.com/2013/diff/', 'React\'s Diffing Algorithm: why it\'s fast'], ['https://github.com/facebook/immutable-js'], ['https://github.com/swannodette/mori'], ['https://www.npmjs.com/package/redux']];
+
+var overview = ['Build tools & npm', 'ES6 concepts', 'React.Component methods', 'Refs and Children', 'lifecycle methods, defaults', 'Keys, Events, and Gotchas'];
+
 var img = function img(url, title) {
-    return (0, _mithrilSlideEngine.m)('div', title && (0, _mithrilSlideEngine.m)('.hr', title), (0, _mithrilSlideEngine.m)('img', { src: url }));
+    var style = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+    return (0, _mithrilSlideEngine.m)('div', title && (0, _mithrilSlideEngine.m)('.hr', title), (0, _mithrilSlideEngine.m)('img', { src: url, style: style }));
 };
 
 var refs = function refs(links) {
-    return (0, _mithrilSlideEngine.m)('.home', (0, _mithrilSlideEngine.m)('.hr', 'References & Resources'), (0, _mithrilSlideEngine.m)('hr'), (0, _mithrilSlideEngine.m)('ul', links.map(function (href) {
-        return (0, _mithrilSlideEngine.m)('li', (0, _mithrilSlideEngine.m)('a', { href: href }, href));
+    return (0, _mithrilSlideEngine.m)('.home', (0, _mithrilSlideEngine.m)('.hr', 'References & Resources'), (0, _mithrilSlideEngine.m)('hr'), (0, _mithrilSlideEngine.m)('ul', links.map(function (_ref) {
+        var _ref2 = _slicedToArray(_ref, 2);
+
+        var href = _ref2[0];
+        var text = _ref2[1];
+        return (0, _mithrilSlideEngine.m)('li', (0, _mithrilSlideEngine.m)('a', { href: href }, text || href));
     })));
 };
 
 function app() {
     var e = (0, _mithrilSlideEngine.engine)();
     e.insert(home);
+    e.insert(img('http://assets.toptal.io/assets/public/blocks/branding/logo/logo-9e7f5c5a7e212a6b2d5f8a2bb0ea3e1f.png', 'Top 3% of freelance developers.', { width: '40%' }));
+    e.insert(img('http://theironyard.com/images/iron-yard-logo.svg', "Passion at the intersection of tech and education.", { width: '30%' }));
+    e.insert(recap(overview, 'Overview'));
     e.insert(recap(buildTools, 'Build tools'));
     e.insert(recap(concepts, 'Concepts'));
     e.insert(pre(packageJSON, 'package.json / npm'));
@@ -100,15 +114,16 @@ function app() {
     e.insert(frame('./slides/components1.js'));
     e.insert(recap(components2, 'Up next... Refs and Children'));
     e.insert(frame('./slides/components2.js'));
-    e.insert(pre(lifecycle, 'Up next... lifecycle methods, events'));
+    e.insert(pre(lifecycle, 'Up next... Lifecycle Methods, Defaults'));
     e.insert(frame('./slides/components3.js'));
-    e.insert(recap(notesAboutEvents, 'Notes'));
     e.insert(recap(questionsAboutLifecycles, 'Questions for the room'));
-    e.insert(recap(['keys', 'propTypes'], 'Troubleshooting, State, and Resolving data'));
+    e.insert(recap([], 'Keys, Events, and Gotchas'));
     e.insert(img('http://calendar.perfplanet.com/wp-content/uploads/2013/12/vjeux/2.png', 'Keys and Diffing'));
     e.insert(frame('./slides/keys.js'));
-
-    // e.insert(refs())
+    e.insert(recap(notes1, 'Notes'));
+    e.insert(recap([], 'PropTypes'));
+    e.insert(frame('./slides/proptypes.js'));
+    e.insert(refs(links));
     e.render('html');
 }
 

@@ -46,12 +46,6 @@ class Person2 {
 
 const extend = (...fns) =>
     (target) => {
-        const subclassTree = fns.reduce((target, subclass) => {
-            class _ extends subclass {}
-            class _2 extends target {}
-            return _2 extends _
-        }, target)
-
         return subclassTree
     }
 

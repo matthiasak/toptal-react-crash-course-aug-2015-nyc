@@ -138,12 +138,9 @@ Section 3: Troubleshooting, State, and React on the server
 
     > exercise: build a blog with multiple views/screens
 
+Extras: Flexible Flux and Advanced Concepts
+
     - React.renderToString vs. Resolver.renderToString
-
-    > exercise: build a blog, but define data in the components with React-Resolver (https://github.com/ericclemmons/react-resolver)
-
-Section 4: Flexible Flux and Advanced Concepts
-
     - A list of awesome components online: http://react.parts/web
     - state management (Backbone, Flux)
     - lots of flux implementations, but Redux and Alt are most popular

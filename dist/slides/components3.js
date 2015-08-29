@@ -55,6 +55,12 @@ let init = function(){
             }
         }
 
+
+        // static values es7 (stage 0 -> https://babeljs.io/docs/usage/experimental/)
+        // --> **NOT** available in Arbiter
+        // static displayName = 'Clock'
+        // static defaultProps = { message: "Let's get some lunch." }
+
         // custom methods added to this component...
         // given an underscore in the name to denote 'custom'
         // (not required, by encouraged)
@@ -112,6 +118,7 @@ let init = function(){
         }
     }
 
+    // default props
     Clock.displayName = 'Clock'
     Clock.defaultProps = { message: "Let's get some lunch." }
 

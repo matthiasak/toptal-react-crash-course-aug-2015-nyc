@@ -112,28 +112,56 @@ const components2 = [
     m('code', 'this.props.children')
 ]
 
-const notesAboutEvents = [
-    `React virtual events are "recycled" quickly, so grab the values immediately`,
-    `React has some global methods (check the API/docs for discussion)`,
-    `DOM events, className, htmlFor, setInnerHTMLDangerously`
-]
-
 const questionsAboutLifecycles = [
     `How would you implement jQuery UI/Kendo/jQuery plugins on a React-managed element?`,
     `How would you have a component listen on mouseMove or scroll, and stop when it is removed from the screen?`
 ]
 
-const img = (url, title) =>
+const notes1 = [
+    `React event callbacks are currently (v0.3.X) **NOT** bound to the object, so we must do that manually`,
+    `React virtual events are "recycled" quickly, so grab the values immediately`,
+    `React has some global methods (check the API/docs for discussion)`,
+    `JSX has tricky naming: DOM events, className, htmlFor, setInnerHTMLDangerously`
+]
+
+const links = [
+    ['https://egghead.io/lessons/react-react-in-7-minutes', 'React in 7 minutes'],
+    ['https://vimeo.com/130921996', 'React components review, Component event handlers, lifecycle methods, state vs props, PropTypes'],
+    ['https://facebook.github.io/react/docs/reusable-components.html#prop-validation'],
+    ['http://ricostacruz.com/cheatsheets/react.html', 'Cheatsheet'],
+    ['https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi', 'DevTools Plugin'],
+    ['http://react.parts/web', 'awesome components resource'],
+    ['https://github.com/ericclemmons/react-resolver', 'React Resolver'],
+    ['http://material-ui.com/#/get-started', 'Material UI in React'],
+    ['https://github.com/chenglou/react-motion', 'physics-driven animation for React components'],
+    ['http://devdocs.io/react/', 'DevDocs.io documentation'],
+    ['http://facebook.github.io/react/docs/getting-started.html'],
+    ['http://calendar.perfplanet.com/2013/diff/', 'React\'s Diffing Algorithm: why it\'s fast'],
+    ['https://github.com/facebook/immutable-js'],
+    ['https://github.com/swannodette/mori'],
+    ['https://www.npmjs.com/package/redux']
+]
+
+const overview = [
+    'Build tools & npm',
+    'ES6 concepts',
+    'React.Component methods',
+    'Refs and Children',
+    'lifecycle methods, defaults',
+    'Keys, Events, and Gotchas'
+]
+
+const img = (url, title, style={}) =>
     m('div',
         title && m('.hr', title),
-        m('img', {src: url}))
+        m('img', {src: url, style}))
 
 let refs = (links) => {
     return m('.home',
         m('.hr', 'References & Resources'),
         m('hr'),
         m('ul',
-            links.map(href => m('li', m('a', {href}, href)))
+            links.map(([href, text]) => m('li', m('a', {href}, text || href)))
         )
     )
 }
@@ -141,6 +169,9 @@ let refs = (links) => {
 function app() {
     let e = engine()
     e.insert(home)
+    e.insert(img('http://assets.toptal.io/assets/public/blocks/branding/logo/logo-9e7f5c5a7e212a6b2d5f8a2bb0ea3e1f.png', 'Top 3% of freelance developers.', {width:'40%'}))
+    e.insert(img('http://theironyard.com/images/iron-yard-logo.svg', "Passion at the intersection of tech and education.", {width:'30%'}))
+    e.insert(recap(overview, 'Overview'))
     e.insert(recap(buildTools, 'Build tools'))
     e.insert(recap(concepts, 'Concepts'))
     e.insert(pre(packageJSON, 'package.json / npm'))
@@ -154,15 +185,16 @@ function app() {
     e.insert(frame('./slides/components1.js'))
     e.insert(recap(components2, 'Up next... Refs and Children'))
     e.insert(frame('./slides/components2.js'))
-    e.insert(pre(lifecycle, 'Up next... lifecycle methods, events'))
+    e.insert(pre(lifecycle, 'Up next... Lifecycle Methods, Defaults'))
     e.insert(frame('./slides/components3.js'))
-    e.insert(recap(notesAboutEvents, 'Notes'))
     e.insert(recap(questionsAboutLifecycles, 'Questions for the room'))
-    e.insert(recap(['keys', 'propTypes'], 'Troubleshooting, State, and Resolving data'))
+    e.insert(recap([], 'Keys, Events, and Gotchas'))
     e.insert(img('http://calendar.perfplanet.com/wp-content/uploads/2013/12/vjeux/2.png', 'Keys and Diffing'))
     e.insert(frame('./slides/keys.js'))
-
-    // e.insert(refs())
+    e.insert(recap(notes1, 'Notes'))
+    e.insert(recap([], 'PropTypes'))
+    e.insert(frame('./slides/proptypes.js'))
+    e.insert(refs(links))
     e.render('html')
 }
 
